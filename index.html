@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelDiscover - Your Perfect Travel Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+        }
+
+        /* Sections */
+        .section {
+            min-height: 100vh;
+            padding: 100px 2rem 2rem;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Home Section */
+        .home {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .search-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-top: 2rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+        }
+
+        .search-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .quick-filters {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            color: #333;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Results Section */
+        .results {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .result-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .result-content {
+            padding: 1.5rem;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .result-description {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .local-time {
+            background: #f0f0f0;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #333;
+            display: inline-block;
+        }
+
+        /* About Section */
+        .about {
+            background: #f8f9fa;
+        }
+
+        .about-content {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .about-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .about-section h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .office-map {
+            height: 300px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+            color: #666;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .quick-filters {
+                flex-wrap: wrap;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">TravelDiscover</a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showSection('home')">Home</a></li>
+                <li><a href="#" onclick="showSection('about')">About</a></li>
+                <li><a href="#" onclick="showSection('contact')">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section home active">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Discover Your Perfect Destination</h1>
+                <p>Personalized travel recommendations tailored just for you</p>
+                
+                <div class="search-container">
+                    <div class="search-bar">
+                        <input type="text" class="search-input" placeholder="Search for beaches, temples, or cities like Toronto, Canada..." id="searchInput">
+                        <button class="search-btn" onclick="performSearch()">Search</button>
+                    </div>
+                    <div class="quick-filters">
+                        <button class="filter-btn" onclick="quickSearch('beaches')">Beaches</button>
+                        <button class="filter-btn" onclick="quickSearch('temples')">Temples</button>
+                        <button class="filter-btn" onclick="quickSearch('cities')">Cities</button>
+                        <button class="filter-btn" onclick="quickSearch('mountains')">Mountains</button>
+                    </div>
+                </div>
+
+                <div class="results" id="searchResults">
+                    <h2>Search Results</h2>
+                    <div class="results-grid" id="resultsGrid">
+                        <!-- Results will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-section">
+                    <h2>Our Mission</h2>
+                    <p>At TravelDiscover, we believe that every journey should be extraordinary. Our mission is to help travelers discover their perfect destinations through personalized recommendations, comprehensive insights, and seamless planning tools. We're committed to making travel accessible, enjoyable, and memorable for everyone.</p>
+                    <p>Our platform combines cutting-edge technology with human expertise to provide you with curated travel experiences that match your unique preferences and interests.</p>
+                </div>
+
+                <div class="about-section">
+                    <h2>Our Team</h2>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <div class="team-avatar">SA</div>
+                            <h3>Sarah Anderson</h3>
+                            <p>CEO & Founder</p>
+                            <p>Travel enthusiast with 15+ years in the tourism industry</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-avatar">MJ</div>
+                            <h3>Michael Johnson</h3>
+                            <p>CTO</p>
+                            <p>Technology expert specializing in AI and recommendation systems</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-avatar">EL</div>
+                            <h3>Emily Lee</h3>
+                            <p>Head of Content</p>
+                            <p>Travel writer and cultural expert with global experience</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-avatar">DB</div>
+                            <h3>David Brown</h3>
+                            <p>Head of Operations</p>
+                            <p>Operations specialist ensuring smooth user experiences</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h2>Company History</h2>
+                    <p><strong>2020:</strong> TravelDiscover was founded with a vision to revolutionize travel planning through personalized recommendations.</p>
+                    <p><strong>2021:</strong> Launched our first AI-powered recommendation engine, serving over 10,000 users in the first year.</p>
+                    <p><strong>2022:</strong> Expanded our database to include over 50,000 destinations worldwide and introduced real-time local information.</p>
+                    <p><strong>2023:</strong> Reached 1 million users and launched our mobile application with enhanced features.</p>
+                    <p><strong>2024:</strong> Introduced advanced personalization features and expanded to serve users in over 100 countries.</p>
+                </div>
+
+                <div class="about-section">
+                    <h2>Office Locations</h2>
+                    <p><strong>Headquarters:</strong> New York, NY - 123 Travel Street, Suite 456</p>
+                    <p><strong>West Coast Office:</strong> San Francisco, CA - 789 Innovation Drive</p>
+                    <p><strong>International Office:</strong> London, UK - 321 Global Avenue</p>
+                    <div class="office-map">
+                        <p>🗺️ Interactive Map of Our Offices</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Get in Touch</h1>
+                <p>We'd love to hear from you! Send us a message and we'll respond promptly.</p>
+                
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Sample data for destinations
+        const destinations = {
+            beaches: [
+                {
+                    title: "Maldives Beach Resort",
+                    description: "Crystal clear waters and pristine white sand beaches perfect for relaxation and water sports.",
+                    image: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    location: "Maldives",
+                    timezone: "Asia/Colombo"
+                },
+                {
+                    title: "Bali Sunset Beach",
+                    description: "Stunning sunset views and vibrant beach culture with excellent surfing conditions.",
+                    image: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+                    location: "Bali, Indonesia",
+                    timezone: "Asia/Jakarta"
+                },
+                {
+                    title: "Santorini Beach",
+                    description: "Unique volcanic black sand beaches with breathtaking Mediterranean views.",
+                    image: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+                    location: "Santorini, Greece",
+                    timezone: "Europe/Athens"
+                }
+            ],
+            temples: [
+                {
+                    title: "Angkor Wat",
+                    description: "Magnificent ancient temple complex showcasing Khmer architecture and spiritual significance.",
+                    image: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+                    location: "Siem Reap, Cambodia",
+                    timezone: "Asia/Phnom_Penh"
+                },
+                {
+                    title: "Kinkaku-ji Golden Pavilion",
+                    description: "Stunning golden temple surrounded by beautiful gardens and reflecting pond.",
+                    image: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+                    location: "Kyoto, Japan",
+                    timezone: "Asia/Tokyo"
+                },
+                {
+                    title: "Taj Mahal",
+                    description: "Iconic white marble mausoleum representing eternal love and Indo-Islamic architecture.",
+                    image: "linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)",
+                    location: "Agra, India",
+                    timezone: "Asia/Kolkata"
+                }
+            ],
+            cities: [
+                {
+                    title: "Toronto, Canada",
+                    description: "Diverse metropolitan city with CN Tower, cultural districts, and beautiful waterfront.",
+                    image: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    location: "Toronto, Ontario, Canada",
+                    timezone: "America/Toronto"
+                },
+                {
+                    title: "Paris, France",
+                    description: "City of lights featuring the Eiffel Tower, Louvre Museum, and charming cafes.",
+                    image: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+                    location: "Paris, France",
+                    timezone: "Europe/Paris"
+                },
+                {
+                    title: "Tokyo, Japan",
+                    description: "Modern metropolis blending traditional culture with cutting-edge technology.",
+                    image: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+                    location: "Tokyo, Japan",
+                    timezone: "Asia/Tokyo"
+                }
+            ],
+            mountains: [
+                {
+                    title: "Swiss Alps",
+                    description: "Majestic mountain range perfect for skiing, hiking, and breathtaking scenic views.",
+                    image: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    location: "Switzerland",
+                    timezone: "Europe/Zurich"
+                },
+                {
+                    title: "Mount Fuji",
+                    description: "Iconic volcanic mountain and spiritual symbol of Japan with stunning cherry blossoms.",
+                    image: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+                    location: "Honshu, Japan",
+                    timezone: "Asia/Tokyo"
+                },
+                {
+                    title: "Himalayas",
+                    description: "World's highest mountain range offering incredible trekking and spiritual experiences.",
+                    image: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+                    location: "Nepal/Tibet",
+                    timezone: "Asia/Kathmandu"
+                }
+            ]
+        };
+
+        // Navigation functionality
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Hide search results when navigating away from home
+            if (sectionId !== 'home') {
+                document.getElementById('searchResults').classList.remove('show');
+            }
+        }
+
+        // Search functionality
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            if (!query) return;
+            
+            let results = [];
+            
+            // Search in all categories
+            Object.keys(destinations).forEach(category => {
+                destinations[category].forEach(dest => {
+                    if (dest.title.toLowerCase().includes(query) || 
+                        dest.description.toLowerCase().includes(query) ||
+                        dest.location.toLowerCase().includes(query) ||
+                        category.includes(query)) {
+                        results.push(dest);
+                    }
+                });
+            });
+            
+            displayResults(results);
+        }
+
+        function quickSearch(category) {
+            if (destinations[category]) {
+                displayResults(destinations[category]);
+            }
+        }
+
+        function displayResults(results) {
+            const resultsContainer = document.getElementById('searchResults');
+            const resultsGrid = document.getElementById('resultsGrid');
+            
+            if (results.length === 0) {
+                resultsGrid.innerHTML = '<p>No destinations found. Try searching for beaches, temples, cities, or mountains.</p>';
+            } else {
+                resultsGrid.innerHTML = results.map(dest => `
+                    <div class="result-card">
+                        <div class="result-image" style="background: ${dest.image}"></div>
+                        <div class="result-content">
+                            <h3 class="result-title">${dest.title}</h3>
+                            <p class="result-description">${dest.description}</p>
+                            <div class="local-time" data-timezone="${dest.timezone}">
+                                📍 ${dest.location} • ⏰ Loading time...
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Update local times
+                updateLocalTimes();
+            }
+            
+            resultsContainer.classList.add('show');
+        }
+
+        function updateLocalTimes() {
+            const timeElements = document.querySelectorAll('.local-time');
+            timeElements.forEach(element => {
+                const timezone = element.getAttribute('data-timezone');
+                const location = element.textContent.split(' • ')[0];
+                
+                try {
+                    const now = new Date();
+                    const localTime = new Intl.DateTimeFormat('en-US', {
+                        timeZone: timezone,
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
+                    }).format(now);
+                    
+                    element.textContent = `${location} • ⏰ ${localTime}`;
+                } catch (e) {
+                    element.textContent = `${location} • ⏰ Time unavailable`;
+                }
+            });
+        }
+
+        // Contact form functionality
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Simulate form submission
+            alert(`Thank you, ${name}! Your message has been sent successfully. We'll respond to ${email} within 24 hours.`);
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('home');
+        });
+    </script>
+</body>
+</html>
